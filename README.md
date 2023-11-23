@@ -23,7 +23,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 - .NET SDK
 - Azure SQL Database
-- A suitable IDE such as Visual Studio
+- A suitable IDE such as Visual Studio 2022g
 
 ### Installation
 
@@ -53,10 +53,8 @@ Contributions are what make the open-source community such an amazing place to l
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This project is free to use and does not come with a specific license.
 
 ## Contact
+Github : [https://github.com/scriptpi01]
 
-Your Name - example@email.com
-
-Project Link: [https://github.com/yourusername/BuEmailSystem](https://github.com/yourusername/BuEmailSystem)
