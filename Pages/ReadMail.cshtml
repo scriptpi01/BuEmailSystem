@@ -1,0 +1,124 @@
+﻿@page
+@model FinalProject.Pages.ReadMailModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Email</title>
+    <style>
+        body, html {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #900; /* Dark red background */
+            color: #fff; /* White text color */
+            margin-top:50px;
+        }
+
+        .container {
+            max-width: 752px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            color: #202124; /* Default text color */
+            position: relative; /* For absolute positioning of the delete button */
+        }
+
+        .email-header {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .email-title {
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .email-sender {
+            margin: 5px 0px;
+            color: #5f6368;
+            font-size: 16px;
+        }
+
+        .email-body {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 0px 20px;
+            background: #f1f3f4; /* Light grey background */
+            border-radius: 4px;
+            margin: 0; /* Remove margin */
+        }
+
+        .button-bar {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .btn, .btn-reply, .delete-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .btn {
+            background: #1a73e8;
+            color: white;
+        }
+
+            .btn:hover {
+                background: #135ab7;
+            }
+
+        .delete-btn {
+            background-color: red;
+            color: white;
+            position: absolute;
+            right: 20px; /* Adjust position */
+            top: 20px; /* Adjust position */
+        }
+
+            .delete-btn:hover {
+                background-color: darkred;
+            }
+
+        .btn-reply {
+            background: #28a745;
+            color: white;
+        }
+
+            .btn-reply:hover {
+                background: #218838;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-header">
+            <h2 class="email-title">@Model.EmailSubject</h2>
+            <p class="email-sender">From: @Model.EmailSender</p>
+        </div>
+        <div class="email-body">
+            @Model.EmailMessage
+            <form method="post" asp-page-handler="Delete" style="position: absolute; top: 0; right: 0;">
+                <input type="hidden" name="emailId" value="@Model.EmailId" />
+                <button type="submit" class="delete-btn">Delete</button>
+            </form>
+        </div>
+        <div class="button-bar">
+            <button class="btn-reply" onclick="location.href='/ReplyMail?emailid=@Model.EmailId'">Reply</button>
+            <button class="btn" onclick="location.href='/Index'">Home</button>
+        </div>
+    </div>
+</body>
+</html>
