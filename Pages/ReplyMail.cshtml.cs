@@ -62,7 +62,7 @@ namespace FinalProject.Pages.Compose_New_Email
                     connection.Open();
 
                     // Check if recipient exists in the database
-                    string userCheckSql = "SELECT COUNT(*) FROM AspNetUsers WHERE UserName = @receiver";
+                    string userCheckSql = "SELECT COUNT(*) FROM AspNetUsers WHERE UserName= @receiver";
                     using (SqlCommand userCheckCommand = new SqlCommand(userCheckSql, connection))
                     {
                         userCheckCommand.Parameters.AddWithValue("@receiver", To);
