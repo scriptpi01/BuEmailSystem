@@ -65,6 +65,7 @@ namespace FinalProject.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(15, ErrorMessage = "The Mobile Phone must be in between 7 to 15.", MinimumLength = 7)]
+            [RegularExpression(@"^\d+$", ErrorMessage = "Please enter valid phone number.")]
             public string MobilePhone { get; set; }
 
             [Required]
