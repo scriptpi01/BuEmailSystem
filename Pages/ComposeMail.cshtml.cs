@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
@@ -5,6 +6,7 @@ using System;
 
 namespace FinalProject.Pages.Compose_New_Email
 {
+    [Authorize]
     public class ComposeMailModel : PageModel
     {
         [BindProperty]
@@ -23,14 +25,12 @@ namespace FinalProject.Pages.Compose_New_Email
 
         public IActionResult OnPost()
         {
-            // Check if any field is empty
             if (string.IsNullOrWhiteSpace(To) || string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Message))
             {
                 ErrorMessage = "All fields are required";
                 return Page();
             }
 
-            // Check if the 'To' field is the same as the sender
             if (To.Equals(User.Identity.Name, StringComparison.OrdinalIgnoreCase))
             {
                 ErrorMessage = "You cannot send an email to yourself.";
@@ -44,7 +44,6 @@ namespace FinalProject.Pages.Compose_New_Email
                 {
                     connection.Open();
 
-                    // Check if recipient exists in the database
                     string userCheckSql = "SELECT COUNT(*) FROM AspNetUsers WHERE UserName= @receiver";
                     using (SqlCommand userCheckCommand = new SqlCommand(userCheckSql, connection))
                     {
@@ -57,7 +56,6 @@ namespace FinalProject.Pages.Compose_New_Email
                         }
                     }
 
-                    // Insert the email into the database
                     string sql = "INSERT INTO emails (emailsubject, emailmessage, emaildate, emailisread, emailsender, emailreceiver) VALUES (@subject, @message, @date, @isread, @sender, @receiver)";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
