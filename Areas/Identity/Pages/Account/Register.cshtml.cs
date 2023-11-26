@@ -57,10 +57,12 @@ namespace FinalProject.Areas.Identity.Pages.Account
         {
             [Required]
             [StringLength(255, ErrorMessage = "The First Name must be in between 1 to 255.", MinimumLength = 1)]
+            [RegularExpression(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", ErrorMessage = "First Name must not contain numbers.")]
             public string FirstName { get; set; }
 
             [Required]
             [StringLength(255, ErrorMessage = "The Last Name must be in between 1 to 255.", MinimumLength = 1)]
+            [RegularExpression(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", ErrorMessage = "Last Name must not contain numbers.")]
             public string LastName { get; set; }
 
             [Required]
@@ -70,13 +72,16 @@ namespace FinalProject.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(255, ErrorMessage = "The Username must be between 1 to 255.", MinimumLength = 1)]
+            [RegularExpression(@"^(?!\d+$)[\w.]+$", ErrorMessage = "Username must not be only numbers.")]
             public string UserName { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
+            [RegularExpression(@"^\S*$", ErrorMessage = "Password must not contain spaces.")]
             public string Password { get; set; }
         }
+
 
 
         public async Task OnGetAsync(string returnUrl = null)
