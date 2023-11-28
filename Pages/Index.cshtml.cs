@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace FinalProject.Pages
 {
@@ -38,7 +39,7 @@ namespace FinalProject.Pages
                             {
                                 EmailInfo emailInfo = new EmailInfo
                                 {
-                                    EmailID = reader.GetInt32(0).ToString(),
+                                    EmailID = reader.GetInt32(0).ToString(), // ตรวจสอบว่า column แรกเป็น emailid ที่เป็น int
                                     EmailSubject = reader.GetString(1),
                                     EmailMessage = reader.GetString(2),
                                     EmailDate = reader.GetDateTime(3).ToString(),
@@ -49,6 +50,7 @@ namespace FinalProject.Pages
 
                                 listEmails.Add(emailInfo);
                             }
+
                         }
                     }
                 }

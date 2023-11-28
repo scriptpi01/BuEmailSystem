@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
@@ -19,13 +19,13 @@ namespace FinalProject.Pages.Compose_New_Email
         public string ErrorMessage { get; private set; }
         public string SuccessMessage { get; private set; }
 
-        public void OnGet(int emailid)
+        public IActionResult OnGet(int emailid)
         {
             string connectionString = "Server=tcp:cs436final.database.windows.net,1433;Initial Catalog=FinalProject;Persist Security Info=False;User ID=final_admin;Password=Cs436227F;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT emailsender FROM emails WHERE emailid = @emailid";
+                string sql = "SELECT emailreceiver FROM emails WHERE emailid = @emailid";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@emailid", emailid);
@@ -33,12 +33,25 @@ namespace FinalProject.Pages.Compose_New_Email
                     {
                         if (reader.Read())
                         {
-                            To = reader.GetString(0);
+                            string emailReceiver = reader.GetString(0);
+
+                            // ตรวจสอบว่าผู้ส่งตรงกับผู้ใช้ที่เข้าสู่ระบบหรือไม่
+                            if (!emailReceiver.Equals(User.Identity.Name, StringComparison.OrdinalIgnoreCase))
+                            {
+                                // ถ้าไม่ตรง, กลับไปยังหน้าที่กำหนด
+                                return RedirectToPage("/Index"); // ปรับเปลี่ยนเส้นทางไปยังหน้าที่คุณต้องการ
+                            }
+
+                            To = emailReceiver; // กำหนดค่า To
                         }
                     }
                 }
             }
+
+            // ดำเนินการตามปกติถ้าการตรวจสอบผ่าน
+            return Page();
         }
+
 
         public IActionResult OnPost()
         {

@@ -21,7 +21,20 @@ namespace FinalProject.Pages.Compose_New_Email
 
         public void OnGet()
         {
+            // Retrieve the 'Sender' query parameter
+            string senderQueryParam = HttpContext.Request.Query["Sender"].ToString();
+
+            // Check if 'Sender' query parameter matches the logged-in user's identity
+            if (!senderQueryParam.Equals(User.Identity.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                // If not, redirect to the '/Index' page
+                Response.Redirect("/Index");
+            }
+
+            // If the 'Sender' matches, the rest of the method will execute as normal
+            // You can place any additional logic here if needed
         }
+
 
         public IActionResult OnPost()
         {
