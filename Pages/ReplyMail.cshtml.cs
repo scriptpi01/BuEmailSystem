@@ -25,7 +25,7 @@ namespace FinalProject.Pages.Compose_New_Email
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT emailreceiver FROM emails WHERE emailid = @emailid";
+                string sql = "SELECT * FROM emails WHERE emailid = @emailid";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@emailid", emailid);
@@ -33,7 +33,8 @@ namespace FinalProject.Pages.Compose_New_Email
                     {
                         if (reader.Read())
                         {
-                            string emailReceiver = reader.GetString(0);
+                            string emailSender = reader.GetString(5);
+                            string emailReceiver = reader.GetString(6);
 
                             // ตรวจสอบว่าผู้ส่งตรงกับผู้ใช้ที่เข้าสู่ระบบหรือไม่
                             if (!emailReceiver.Equals(User.Identity.Name, StringComparison.OrdinalIgnoreCase))
@@ -42,7 +43,7 @@ namespace FinalProject.Pages.Compose_New_Email
                                 return RedirectToPage("/Index"); // ปรับเปลี่ยนเส้นทางไปยังหน้าที่คุณต้องการ
                             }
 
-                            To = emailReceiver; // กำหนดค่า To
+                            To = emailSender; // กำหนดค่า To
                         }
                     }
                 }
